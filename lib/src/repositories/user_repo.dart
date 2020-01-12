@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class UserRepository {
 
-  Future<User> singUpUser(User user) async {
+  Future<User> signUpUser(User user) async {
 
     if(!user.validSignUpUserProperty()){
       throw Exception('All field is requiered!');
