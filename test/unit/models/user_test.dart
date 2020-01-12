@@ -1,5 +1,5 @@
 
-import 'package:bank_account_kata_flutter/src/models/user.dart';
+import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
