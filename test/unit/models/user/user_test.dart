@@ -4,13 +4,35 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group("User model : methodes", () {
-    var user = User();
     test("Should valid email type ", () {
       // Arrange
-      var inputEmail = 'dadie.emilin@gmail.com';
+      User user = User();
+      user.email = 'dadie.emilin@gmail.com';
 
       // Act
-      var output = user.validEmailType(inputEmail);
+      bool output = user.validEmailType();
+
+      // Assert
+      expect(output, equals(true));
+    });
+
+    test("Should valid singUp user property", () {
+      // Arrange
+      User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
+
+      // Act
+      bool output = user.validSignUpUserProperty();
+
+      // Assert
+      expect(output, equals(true));
+    });
+
+    test("Should valid signIn user property", () {
+      // Arrange
+      User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
+
+      // Act
+      bool output = user.validSignInUserProperty();
 
       // Assert
       expect(output, equals(true));
