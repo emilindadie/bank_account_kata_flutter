@@ -11,7 +11,6 @@ import '../mock/repositories/user.dart';
 void main() {
 
   group("SignIn bloc", () {
-
     test("test update email", () async {
       // Arrange
       SignInBloc mockBloc = SignInBloc();
@@ -56,7 +55,6 @@ void main() {
       mockBloc.changePassword(inputPassword);
 
       mockBloc.email.listen((email)=> mockBloc.password.listen((password) async {
-
         // Act
         LoginResponse output = await mockBloc.signInUser();
 
