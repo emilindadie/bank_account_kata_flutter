@@ -4,20 +4,19 @@ import 'package:bank_account_kata_flutter/src/models/login_response/login_respon
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 import '../mock/repositories/user.dart';
 
 
 void main() {
 
   group("SignIn bloc", () {
-    test("test update email", () async {
+    test("should update email when email controller sink", () async {
       // Arrange
       SignInBloc mockBloc = SignInBloc();
       String inputEmail = "dadie.emilin@gmail.com";
 
       // Act
-      mockBloc.emailChanged(inputEmail);
+      mockBloc.updateEmail(inputEmail);
 
       mockBloc.email.listen((onData){
         // Assert
@@ -25,23 +24,18 @@ void main() {
       });
     });
 
-    test("test update password", () async {
-      // Arrange
+    test("should update email when password controller sink", () async {
       SignInBloc mockBloc = SignInBloc();
       String inputPassword = "azerty";
-
-      // Act
-      mockBloc.passwordChanged(inputPassword);
+      mockBloc.updatePassword(inputPassword);
 
       mockBloc.password.listen((onData){
-        // Assert
         expect(onData, equals("azerty"));
       });
     });
 
 
-    test("test signIn user", () async {
-      // Arrange
+    test("should return signIn user when having existing email and password in the system", () async {
       SignInBloc mockBloc = SignInBloc();
       String inputEmail = "dadie.emilin@gmail.com";
       String inputPassword = "azerty";
@@ -51,14 +45,11 @@ void main() {
       var mockResponse = LoginResponse(accessToken: 'toto');
       when(repositoryMock.signInUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
-      mockBloc.emailChanged(inputEmail);
-      mockBloc.passwordChanged(inputPassword);
+      mockBloc.updateEmail(inputEmail);
+      mockBloc.updatePassword(inputPassword);
 
       mockBloc.email.listen((email)=> mockBloc.password.listen((password) async {
-        // Act
         LoginResponse output = await mockBloc.signInUser();
-
-        // Assert
         expect(output.accessToken, equals('toto'));
       }));
     });

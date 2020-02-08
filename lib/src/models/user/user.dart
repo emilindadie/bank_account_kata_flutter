@@ -16,18 +16,6 @@ class User {
     address = json['address'];
   }
 
-  bool validEmailType(){
-    return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
-  }
-
-  bool validSignUpUserProperty(){
-    return id.toString().isNotEmpty && name.isNotEmpty && email.isNotEmpty && password.isNotEmpty && address.isNotEmpty && validEmailType();
-  }
-
-  bool validSignInUserProperty(){
-    return email.isNotEmpty && validEmailType() && password.isNotEmpty;
-  }
-
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;

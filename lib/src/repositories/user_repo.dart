@@ -1,13 +1,15 @@
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
+import 'package:bank_account_kata_flutter/src/validators/user_validators.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class UserRepository {
 
-  Future<User> signUpUser(User user) async {
+  UserValidators validators = UserValidators();
 
-    if(!user.validSignUpUserProperty()){
+  Future<User> signUpUser(User user) async {
+    if(!validators.validSignUpUserProperty(user)){
       throw Exception('All field is requiered!');
     }
 
@@ -22,10 +24,10 @@ class UserRepository {
   }
 
   Future<LoginResponse> signInUser(User user) async {
-    if(!user.validSignInUserProperty()){
+    if(!validators.validSignInUserProperty(user.email, user.password)){
       throw Exception('Email and password is required');
     }
-    if(!user.validEmailType()){
+    if(!validators.validEmailType(user.email)){
       throw Exception('Incorrect email');
     }
 

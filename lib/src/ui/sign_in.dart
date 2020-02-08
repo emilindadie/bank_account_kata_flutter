@@ -1,17 +1,17 @@
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
+import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
+import 'package:bank_account_kata_flutter/src/ui/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SignInPage extends StatelessWidget {
   SignInBloc signInBloc;
-  bool emailNotEmpty = false;
-  bool passwordNotEmpty = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class SignInPage extends StatelessWidget {
                 buttonField(signInBloc, context),
               ],
             )),
-            new Positioned(bottom: 60.0, child: signInPageField(context))
+            new Positioned(bottom: 60.0, child: signUpPageField(context))
           ],
         ));
   }
@@ -55,9 +55,9 @@ class SignInPage extends StatelessWidget {
         return Padding(
             padding: EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: bloc.emailChanged,
+              onChanged: bloc.updateEmail,
               decoration: InputDecoration(
-                hintText: 'hero@example.com',
+                hintText: 'toto@example.com',
                 labelText: 'Email',
                 errorText: snapshot.error,
               ),
@@ -74,7 +74,7 @@ class SignInPage extends StatelessWidget {
             padding: EdgeInsets.all(8.0),
             child: TextFormField(
               obscureText: true,
-              onChanged: bloc.passwordChanged,
+              onChanged: bloc.updatePassword,
               decoration: InputDecoration(
                 hintText: '*********',
                 labelText: 'Password',
@@ -125,12 +125,20 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  Widget signInPageField(BuildContext context) {
+  Widget signUpPageField(BuildContext context) {
     return Padding(
         padding: EdgeInsets.all(8.0),
         child: GestureDetector(
           onTap: () async {
             signInBloc.dispose();
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyBlocProvider<SignUpBloc>(
+                    bloc: SignUpBloc(),
+                    child: SignUpPage(),
+                  ),
+                ));
           },
           child: Container(
             child: const Text('You dont have account, SignUp',

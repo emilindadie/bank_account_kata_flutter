@@ -17,14 +17,12 @@ class SignInBloc with LoginValidators implements BlocBase {
   Stream<String> get password => _passwordController.stream.transform(passwordValidator);
   Stream<bool> get submitCheck => _submitCheckController.stream.transform(buttonValidator(_emailController, _passwordController));
 
-  bool signInMethodCalled = false;
-
-  Function(String) get emailChanged {
+  Function(String) get updateEmail {
     _submitCheckController.sink.add(true);
     return _emailController.sink.add;
   }
 
-  Function(String) get passwordChanged {
+  Function(String) get updatePassword {
     _submitCheckController.sink.add(true);
     return _passwordController.sink.add;
   }
@@ -35,8 +33,6 @@ class SignInBloc with LoginValidators implements BlocBase {
   }
 
   Future<LoginResponse> signInUser() async {
-    signInMethodCalled = true;
     return UserRepository().signInUser(User(email : _emailController.value, password: _passwordController.value));
   }
-
 }

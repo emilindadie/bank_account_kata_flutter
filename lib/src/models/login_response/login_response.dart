@@ -1,6 +1,4 @@
 
-
-
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 
 class LoginResponse {
@@ -23,5 +21,4 @@ class LoginResponse {
     data['user'] = this.user.toJson();
     return data;
   }
-
 }

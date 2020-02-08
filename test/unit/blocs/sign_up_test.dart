@@ -11,13 +11,13 @@ void main() {
 
   group("SignIn bloc", () {
 
-    test("test update name", () async {
+    test("should update name when name controller sink", () async {
       // Arrange
       SignUpBloc mockBloc = SignUpBloc();
       String inputName = "Emilin";
 
       // Act
-      mockBloc.changeName(inputName);
+      mockBloc.updateName(inputName);
 
       mockBloc.name.listen((onData){
         // Assert
@@ -26,13 +26,13 @@ void main() {
     });
 
 
-    test("test update email", () async {
+    test("should update email when email controller sink", () async {
       // Arrange
       SignUpBloc mockBloc = SignUpBloc();
       String inputEmail = "dadie.emilin@gmail.com";
 
       // Act
-      mockBloc.changeEmail(inputEmail);
+      mockBloc.updateEmail(inputEmail);
 
       mockBloc.email.listen((onData){
         // Assert
@@ -40,13 +40,13 @@ void main() {
       });
     });
 
-    test("test update address", () async {
+    test("should update address when address controller sink", () async {
       // Arrange
       SignUpBloc mockBloc = SignUpBloc();
       String inputPassword = "14 rue de Mulhouse";
 
       // Act
-      mockBloc.changeAddress(inputPassword);
+      mockBloc.updateAddress(inputPassword);
 
       mockBloc.address.listen((onData){
         // Assert
@@ -54,13 +54,13 @@ void main() {
       });
     });
 
-    test("test update password", () async {
+    test("should update password when password controller sink", () async {
       // Arrange
       SignUpBloc mockBloc = SignUpBloc();
       String inputPassword = "azerty";
 
       // Act
-      mockBloc.changePassword(inputPassword);
+      mockBloc.updatePassword(inputPassword);
 
       mockBloc.password.listen((onData){
         // Assert
@@ -68,8 +68,7 @@ void main() {
       });
     });
 
-
-    test("test signUp user", () async {
+    test("should return signUp user when having valid signUp dto", () async {
       // Arrange
       SignUpBloc mockBloc = SignUpBloc();
       User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
@@ -83,15 +82,15 @@ void main() {
       var mockResponse = user;
       when(repositoryMock.signUpUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
-      mockBloc.changeName(inputName);
-      mockBloc.changeEmail(inputEmail);
-      mockBloc.changeAddress(inputAddress);
-      mockBloc.changePassword(inputPassword);
+      mockBloc.updateName(inputName);
+      mockBloc.updateEmail(inputEmail);
+      mockBloc.updateAddress(inputAddress);
+      mockBloc.updatePassword(inputPassword);
 
       mockBloc.name.listen((name)=> mockBloc.email.listen((email) => mockBloc.address.listen((address) => mockBloc.password.listen((password) async  {
 
         // Act
-        User output = await mockBloc.signInUser();
+        User output = await mockBloc.signUpUser();
 
         // Assert
         expect(output.email, equals('dadie.emilin@gmail.com'));
