@@ -17,7 +17,7 @@ void main() {
       String inputEmail = "dadie.emilin@gmail.com";
 
       // Act
-      mockBloc.changeEmail(inputEmail);
+      mockBloc.emailChanged(inputEmail);
 
       mockBloc.email.listen((onData){
         // Assert
@@ -31,7 +31,7 @@ void main() {
       String inputPassword = "azerty";
 
       // Act
-      mockBloc.changePassword(inputPassword);
+      mockBloc.passwordChanged(inputPassword);
 
       mockBloc.password.listen((onData){
         // Assert
@@ -51,8 +51,8 @@ void main() {
       var mockResponse = LoginResponse(accessToken: 'toto');
       when(repositoryMock.signInUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
-      mockBloc.changeEmail(inputEmail);
-      mockBloc.changePassword(inputPassword);
+      mockBloc.emailChanged(inputEmail);
+      mockBloc.passwordChanged(inputPassword);
 
       mockBloc.email.listen((email)=> mockBloc.password.listen((password) async {
         // Act

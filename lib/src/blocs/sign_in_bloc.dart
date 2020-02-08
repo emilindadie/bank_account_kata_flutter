@@ -2,22 +2,32 @@
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
+import 'package:bank_account_kata_flutter/src/validators/login_validators.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 
-class SignInBloc implements BlocBase {
+class SignInBloc with LoginValidators implements BlocBase {
 
   BehaviorSubject<String> _emailController = BehaviorSubject<String>.seeded("");
   BehaviorSubject<String> _passwordController = BehaviorSubject<String>.seeded("");
+  BehaviorSubject<bool> _submitCheckController = BehaviorSubject<bool>.seeded(true);
 
-  Stream<String> get email => _emailController.stream;
-  Stream<String> get password => _passwordController.stream;
+  Stream<String> get email => _emailController.stream.transform(emailValidator);
+  Stream<String> get password => _passwordController.stream.transform(passwordValidator);
+  Stream<bool> get submitCheck => _submitCheckController.stream.transform(buttonValidator(_emailController, _passwordController));
 
+  bool signInMethodCalled = false;
 
-  Function(String) get changeEmail => _emailController.sink.add;
-  Function(String) get changePassword => _passwordController.sink.add;
+  Function(String) get emailChanged {
+    _submitCheckController.sink.add(true);
+    return _emailController.sink.add;
+  }
 
+  Function(String) get passwordChanged {
+    _submitCheckController.sink.add(true);
+    return _passwordController.sink.add;
+  }
 
   void dispose() {
     _emailController.close();
@@ -25,6 +35,8 @@ class SignInBloc implements BlocBase {
   }
 
   Future<LoginResponse> signInUser() async {
+    signInMethodCalled = true;
     return UserRepository().signInUser(User(email : _emailController.value, password: _passwordController.value));
   }
+
 }
