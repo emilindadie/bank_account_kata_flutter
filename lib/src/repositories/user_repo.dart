@@ -1,10 +1,12 @@
+
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/validators/user_validators.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:http/http.dart' show Client;
 
 class UserRepository {
+  var client = Client();
 
   UserValidators validators = UserValidators();
 
@@ -13,11 +15,9 @@ class UserRepository {
       throw Exception('All field is requiered!');
     }
 
-    final response = await http.post(new Uri.http("localhost:3001", "/user"), body: user.signUpDataToJson());
-    print(response.statusCode);
+    final response = await client.post(new Uri.http("localhost:3001", "/user"), body: user.signUpDataToJson());
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
-      return User.fromJson(jsonDecode(response.body));
+      return User.fromJson(jsonDecode(response.body)['data']);
     } else {
       throw Exception('Failed to create user');
     }
@@ -31,13 +31,11 @@ class UserRepository {
       throw Exception('Incorrect email');
     }
 
-    final response = await http.post(new Uri.http("localhost:3001", "/user/login"), body: user.signInDataToJson());
-    print(jsonDecode(response.body));
+    final response = await client.post(new Uri.http("localhost:3001", "/user/login"), body: user.signInDataToJson());
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
-      return LoginResponse.fromJson(jsonDecode(response.body)['data']);
+      return LoginResponse().fromJson(jsonDecode(response.body)['data']);
     } else {
-      throw Exception('Failed to log user');
+      throw Exception('Password or email is wrong');
     }
   }
 }

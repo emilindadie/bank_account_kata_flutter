@@ -107,11 +107,18 @@ class SignInPage extends StatelessWidget {
                     onPressed: snapshot.hasData && snapshot.data
                         ? null
                         : () async {
-                            var res = await bloc.signInUser();
-                            final snackBar =
-                                SnackBar(content: Text('Compte créer'));
-                            Scaffold.of(context).showSnackBar(snackBar);
-                            callback(res.user, res.accessToken);
+                            try {
+                              var res = await bloc.signInUser();
+                              final snackBar =
+                                  SnackBar(content: Text('Compte créer'));
+                              Scaffold.of(context).showSnackBar(snackBar);
+                              callback(res.user, res.accessToken);
+                            } catch (exeption) {
+                              print('$exeption');
+                              final snackBar = SnackBar(
+                                  content: Text("Wrong email or password"));
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            }
                           },
                     textColor: Colors.white,
                     color: Color(0xFF17479E),

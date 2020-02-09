@@ -1,5 +1,7 @@
 
-class User {
+import 'package:bank_account_kata_flutter/src/models/base/base.dart';
+
+class User extends BaseModel<User>{
   int id;
   String name;
   String email;
@@ -16,6 +18,17 @@ class User {
     address = json['address'];
   }
 
+
+  @override
+  User fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    password = json['password'];
+    address = json['address'];
+  }
+
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;

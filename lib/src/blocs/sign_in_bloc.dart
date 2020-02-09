@@ -33,6 +33,6 @@ class SignInBloc with LoginValidators implements BlocBase {
   }
 
   Future<LoginResponse> signInUser() async {
-    return UserRepository().signInUser(User(email : _emailController.value, password: _passwordController.value));
+      return UserRepository().signInUser(User(email : _emailController.value, password: _passwordController.value));
   }
 }

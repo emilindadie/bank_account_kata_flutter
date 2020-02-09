@@ -1,27 +1,31 @@
 
 import 'dart:convert';
 
+import 'package:bank_account_kata_flutter/src/models/api/api_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
+import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
-import '../../mock/http/http.dart';
+import 'package:http/http.dart';
+import 'package:http/testing.dart';
 
 
 void main() {
   group("User repository : signUp user", () {
     test("Should signUp user",  () async {
       // Arrange
+      UserRepository repo = UserRepository();
       User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
-      var httpMock = MockHttpClient();
-      var mockResponse = user;
-      when(httpMock.post(new Uri.http("localhost:3001", "/user"), body: user.signInDataToJson())).thenAnswer((_) async => http.Response(jsonEncode(mockResponse.toJson()), 200));
+      final mockResponse = new ApiResponse<User>(data: user);
+
+      repo.client = MockClient((request) async {
+        return Response(jsonEncode(mockResponse.toJson()), 200);
+      });
 
       // Act
-      var output = await httpMock.post(new Uri.http("localhost:3001", "/user"), body: user.signInDataToJson());
+      final output = await repo.signUpUser(user);
 
       // Assert
-      expect(User.fromJson(jsonDecode(output.body)).email, equals('dadie.emilin@gmail.com'));
+      expect(output.email, equals('dadie.emilin@gmail.com'));
     });
   });
 }

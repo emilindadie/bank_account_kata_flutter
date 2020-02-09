@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SignUpPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     final SignUpBloc registerBloc = MyBlocProvider.of<SignUpBloc>(context);
@@ -116,40 +115,36 @@ class SignUpPage extends StatelessWidget {
     return StreamBuilder(
       stream: bloc.submitCheck,
       builder: (context, snapshot) {
-        if(snapshot.hasData){
-          if(snapshot.data){
+        if (snapshot.hasData) {
+          if (snapshot.data) {
             return renderButton(null);
           } else {
             return renderButton(() async {
               var res = await bloc.signUpUser();
-              final snackBar =
-              SnackBar(content: Text('Compte créer'));
+              final snackBar = SnackBar(content: Text('Compte créer'));
               Scaffold.of(context).showSnackBar(snackBar);
             });
           }
-        }else {
+        } else {
           return renderButton(null);
         }
       },
     );
   }
 
-
-  Widget renderButton(Function f){
+  Widget renderButton(Function f) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: ConstrainedBox(
-          constraints: const BoxConstraints(minWidth: double.infinity),
-          child: RaisedButton(
-            key: Key("registerSubmitButton"),
-            onPressed: f,
-            textColor: Colors.white,
-            color: Color(0xFF17479E),
-            child: Container(
-              child:
-              const Text('Register', style: TextStyle(fontSize: 20)),
-            ),
-          )));
+        padding: EdgeInsets.all(8.0),
+        child: ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: double.infinity),
+            child: RaisedButton(
+              key: Key("registerSubmitButton"),
+              onPressed: f,
+              textColor: Colors.white,
+              color: Color(0xFF17479E),
+              child: Container(
+                child: const Text('Register', style: TextStyle(fontSize: 20)),
+              ),
+            )));
   }
-
 }

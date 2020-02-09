@@ -10,16 +10,15 @@ import '../mock/repositories/user.dart';
 void main() {
 
   group("SignIn bloc", () {
-
     test("should update name when name controller sink", () async {
       // Arrange
-      SignUpBloc mockBloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc();
       String inputName = "Emilin";
 
       // Act
-      mockBloc.updateName(inputName);
+      bloc.updateName(inputName);
 
-      mockBloc.name.listen((onData){
+      bloc.name.listen((onData){
         // Assert
         expect(onData, equals("Emilin"));
       });
@@ -27,50 +26,40 @@ void main() {
 
 
     test("should update email when email controller sink", () async {
-      // Arrange
-      SignUpBloc mockBloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc();
       String inputEmail = "dadie.emilin@gmail.com";
 
-      // Act
-      mockBloc.updateEmail(inputEmail);
+      bloc.updateEmail(inputEmail);
 
-      mockBloc.email.listen((onData){
-        // Assert
+      bloc.email.listen((onData){
         expect(onData, equals("dadie.emilin@gmail.com"));
       });
     });
 
     test("should update address when address controller sink", () async {
-      // Arrange
-      SignUpBloc mockBloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc();
       String inputPassword = "14 rue de Mulhouse";
 
-      // Act
-      mockBloc.updateAddress(inputPassword);
+      bloc.updateAddress(inputPassword);
 
-      mockBloc.address.listen((onData){
-        // Assert
+      bloc.address.listen((onData){
         expect(onData, equals("14 rue de Mulhouse"));
       });
     });
 
     test("should update password when password controller sink", () async {
-      // Arrange
-      SignUpBloc mockBloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc();
       String inputPassword = "azerty";
 
-      // Act
-      mockBloc.updatePassword(inputPassword);
+      bloc.updatePassword(inputPassword);
 
-      mockBloc.password.listen((onData){
-        // Assert
+      bloc.password.listen((onData){
         expect(onData, equals("azerty"));
       });
     });
 
     test("should return signUp user when having valid signUp dto", () async {
-      // Arrange
-      SignUpBloc mockBloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc();
       User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
 
       String inputName = 'Emilin';
@@ -79,20 +68,16 @@ void main() {
       String inputPassword = "azerty";
 
       MockUserRepository repositoryMock = MockUserRepository();
-      var mockResponse = user;
+      User mockResponse = user;
       when(repositoryMock.signUpUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
-      mockBloc.updateName(inputName);
-      mockBloc.updateEmail(inputEmail);
-      mockBloc.updateAddress(inputAddress);
-      mockBloc.updatePassword(inputPassword);
+      bloc.updateName(inputName);
+      bloc.updateEmail(inputEmail);
+      bloc.updateAddress(inputAddress);
+      bloc.updatePassword(inputPassword);
 
-      mockBloc.name.listen((name)=> mockBloc.email.listen((email) => mockBloc.address.listen((address) => mockBloc.password.listen((password) async  {
-
-        // Act
-        User output = await mockBloc.signUpUser();
-
-        // Assert
+      bloc.name.listen((name)=> bloc.email.listen((email) => bloc.address.listen((address) => bloc.password.listen((password) async  {
+        User output = await bloc.signUpUser();
         expect(output.email, equals('dadie.emilin@gmail.com'));
       }))));
     });
