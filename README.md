@@ -1,16 +1,30 @@
 # bank_account_kata_flutter
-
 BankAccountKata application build with flutter framework
 
-## Getting Started
+Think of your personal bank account experience When in doubt, go for the simplest solution
 
-This project is a starting point for a Flutter application.
+# Requirements
+- Deposit and Withdrawal
+- Account statement (date, amount, balance)
+- Statement printing
 
-A few resources to get you started if this is your first Flutter project:
+# User Storiess
+##### US 1:
+**In order to** save money
+**As a** bank client
+**I want to** make a deposit in my account
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+##### US 2:
+**In order to** retrieve some or all of my savings
+**As a** bank client
+**I want to** make a withdrawal from my account
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+##### US 3:
+**In order to** check my operations
+**As a** bank client
+**I want to** see the history (operation, date, amount, balance)  of my operations
+
+
+# Api Dependance
+
+[BankAccountkataApi](https://github.com/emilindadie/BankAccountKataApi)

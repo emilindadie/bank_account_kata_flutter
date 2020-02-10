@@ -17,7 +17,7 @@ void main() {
 
     test("should update accountName when account controller sink", () async {
       // Arrange
-      ConsultBloc bloc = ConsultBloc(user: user, access_token: 'accessToken');
+      ConsultBloc bloc = ConsultBloc(user: user, accessToken: 'accessToken');
       String accountName = "Compte A";
 
       // Act

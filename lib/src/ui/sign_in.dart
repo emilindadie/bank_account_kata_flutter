@@ -1,14 +1,18 @@
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
+import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
+import 'package:bank_account_kata_flutter/src/redux/home_action.dart';
 import 'package:bank_account_kata_flutter/src/ui/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import 'home.dart';
 
 class SignInPage extends StatelessWidget {
   SignInBloc signInBloc;
@@ -90,12 +94,15 @@ class SignInPage extends StatelessWidget {
       stream: bloc.submitCheck,
       builder: (context, snapshot) {
         return new StoreConnector<AppState, Function>(converter: (store) {
-          return (User user, String access_token) => {
+          return (User user, String accessToken) => {
                 store.dispatch(AppAction(
                     authAction: AuthAction(
                         type: 'load_user',
                         user: user,
-                        access_token: access_token))),
+                        accessToken: accessToken),
+                    homeAction: HomeAction(type: 'consult'))),
+                Navigator.of(context).pushReplacement(
+                    new MaterialPageRoute(builder: (context) => HomePage()))
               };
         }, builder: (context, callback) {
           return Padding(
@@ -107,17 +114,18 @@ class SignInPage extends StatelessWidget {
                     onPressed: snapshot.hasData && snapshot.data
                         ? null
                         : () async {
-                            try {
-                              var res = await bloc.signInUser();
+                            var res =
+                                await bloc.signInUser().catchError((onError) {
+                              final snackBar = SnackBar(
+                                  content: Text("Wrong email or password"));
+                              Scaffold.of(context).showSnackBar(snackBar);
+                            });
+
+                            if (res != null) {
                               final snackBar =
                                   SnackBar(content: Text('Compte créer'));
                               Scaffold.of(context).showSnackBar(snackBar);
                               callback(res.user, res.accessToken);
-                            } catch (exeption) {
-                              print('$exeption');
-                              final snackBar = SnackBar(
-                                  content: Text("Wrong email or password"));
-                              Scaffold.of(context).showSnackBar(snackBar);
                             }
                           },
                     textColor: Colors.white,
@@ -153,5 +161,12 @@ class SignInPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, color: Color(0xFF17479E))),
           ),
         ));
+  }
+
+  Function onCompleted(
+      BuildContext context, Function callback, LoginResponse res) {
+    final snackBar = SnackBar(content: Text('Compte créer'));
+    Scaffold.of(context).showSnackBar(snackBar);
+    callback(res.user, res.accessToken);
   }
 }

@@ -26,5 +26,4 @@ class LoginResponse extends BaseModel<LoginResponse>{
         user:  json['user'] != null ? new User.fromJson(json['user']) : null
     );
   }
-
 }

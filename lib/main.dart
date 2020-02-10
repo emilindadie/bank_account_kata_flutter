@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import 'src/redux/home_state.dart';
+
 
 
 
@@ -19,7 +21,7 @@ void main() {
 
   final store = Store<AppState>(
     appReducer,
-    initialState: AppState(authState: AuthState(isAuthenticated: false, user: null)),
+    initialState: AppState(authState: AuthState(isAuthenticated: false, user: null), homeState: HomeState(currentIndex: 0, title: 'Consult')),
   );
 
   runApp(MyApp(

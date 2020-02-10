@@ -8,7 +8,7 @@ class AccountRepository {
 
   Future<List<Account>> loadAccounts(int userId, String accessToken) async {
 
-    final response = await client.get(new Uri.http("localhost:3001", "/account", {'userId': userId.toString()}),
+    final response = await client.get(new Uri.http("localhost:3001", "/accounts", {'userId': userId.toString()}),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -29,7 +29,7 @@ class AccountRepository {
   Future<Account> createAccount(CreateAccount createAccount , String accessToken) async {
     print(createAccount.toJson());
 
-    final response = await client.post(new Uri.http("localhost:3001", "/account"), body: createAccount.toJson(),
+    final response = await client.post(new Uri.http("localhost:3001", "/accounts"), body: createAccount.toJson(),
         headers: {
           'Authorization': 'Bearer $accessToken',
         });

@@ -17,9 +17,9 @@ class ConsultBloc implements BlocBase {
   AccountRepository repository;
 
   User user;
-  String access_token;
+  String accessToken;
 
-  ConsultBloc({this.user, this.access_token}){
+  ConsultBloc({this.user, this.accessToken}){
     repository = AccountRepository();
     loadAccounts();
   }
@@ -38,18 +38,18 @@ class ConsultBloc implements BlocBase {
   }
 
   void loadAccounts() async {
-    repository.loadAccounts(user.id, access_token).then((accounts) {
+    repository.loadAccounts(user.id, accessToken).then((accounts) {
       _accountController.sink.add(List.unmodifiable(accounts));
     });
   }
 
   void refresh() async {
-    repository.loadAccounts(user.id, access_token).then((accounts) {
+    repository.loadAccounts(user.id, accessToken).then((accounts) {
       _accountController.sink.add(List.unmodifiable(accounts));
     });
   }
 
   Future<Account> createAccount(String name, User user) async {
-    return AccountRepository().createAccount(CreateAccount.create(name, user), access_token);
+    return AccountRepository().createAccount(CreateAccount.create(name, user), accessToken);
   }
 }

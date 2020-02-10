@@ -15,7 +15,7 @@ class UserRepository {
       throw Exception('All field is requiered!');
     }
 
-    final response = await client.post(new Uri.http("localhost:3001", "/user"), body: user.signUpDataToJson());
+    final response = await client.post(new Uri.http("localhost:3001", "/users"), body: user.signUpDataToJson());
     if (response.statusCode == 200) {
       return User.fromJson(jsonDecode(response.body)['data']);
     } else {
@@ -31,7 +31,7 @@ class UserRepository {
       throw Exception('Incorrect email');
     }
 
-    final response = await client.post(new Uri.http("localhost:3001", "/user/login"), body: user.signInDataToJson());
+    final response = await client.post(new Uri.http("localhost:3001", "/users/login"), body: user.signInDataToJson());
     if (response.statusCode == 200) {
       return LoginResponse().fromJson(jsonDecode(response.body)['data']);
     } else {
