@@ -1,5 +1,6 @@
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 import 'package:bank_account_kata_flutter/src/blocs/consult_bloc.dart';
+import 'package:bank_account_kata_flutter/src/blocs/manage_bloc.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
@@ -79,7 +80,10 @@ class HomePage extends StatelessWidget {
             accessToken: state.authState.accessToken),
         child: ConsultPage(title: state.homeState.title),
       ),
-      ManagePage(title: state.homeState.title),
+      MyBlocProvider<ManageBloc>(
+        bloc: ManageBloc(),
+        child: ManagePage(title: state.homeState.title),
+      ),
       Center(),
     ];
   }

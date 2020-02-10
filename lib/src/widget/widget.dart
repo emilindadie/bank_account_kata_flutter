@@ -11,6 +11,7 @@ class CustomCardItemList extends StatelessWidget {
         this.marginLeft,
         this.marginBottom,
         this.height,
+        this.width,
         this.onClickListener,
         this.modelId,
         this.modelData,
@@ -22,6 +23,7 @@ class CustomCardItemList extends StatelessWidget {
   double marginBottom;
   double marginLeft;
   double height;
+  double width;
   Widget child;
 
   //Handle click event
@@ -34,6 +36,7 @@ class CustomCardItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: height,
+      width: width,
       margin: EdgeInsets.only(
           top: marginTop != null ? marginTop : 0.0,
           right: marginRight != null ? marginRight : 0.0,
