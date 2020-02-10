@@ -7,6 +7,7 @@ import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/home_action.dart';
+import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:bank_account_kata_flutter/src/ui/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -150,7 +151,7 @@ class SignInPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => MyBlocProvider<SignUpBloc>(
-                    bloc: SignUpBloc(),
+                    bloc: SignUpBloc(repository: UserRepository()),
                     child: SignUpPage(),
                   ),
                 ));

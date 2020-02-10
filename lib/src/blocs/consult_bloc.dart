@@ -19,8 +19,7 @@ class ConsultBloc implements BlocBase {
   User user;
   String accessToken;
 
-  ConsultBloc({this.user, this.accessToken}){
-    repository = AccountRepository();
+  ConsultBloc({this.repository, this.user, this.accessToken}){
     loadAccounts();
   }
 
@@ -50,6 +49,6 @@ class ConsultBloc implements BlocBase {
   }
 
   Future<Account> createAccount(String name, User user) async {
-    return AccountRepository().createAccount(CreateAccount.create(name, user), accessToken);
+    return repository.createAccount(CreateAccount.create(name, user), accessToken);
   }
 }

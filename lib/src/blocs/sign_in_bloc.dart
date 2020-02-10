@@ -9,6 +9,10 @@ import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 
 class SignInBloc with LoginValidators implements BlocBase {
 
+  UserRepository repository;
+
+  SignInBloc({this.repository});
+
   BehaviorSubject<String> _emailController = BehaviorSubject<String>.seeded("");
   BehaviorSubject<String> _passwordController = BehaviorSubject<String>.seeded("");
   BehaviorSubject<bool> _submitCheckController = BehaviorSubject<bool>.seeded(true);
@@ -33,6 +37,6 @@ class SignInBloc with LoginValidators implements BlocBase {
   }
 
   Future<LoginResponse> signInUser() async {
-      return UserRepository().signInUser(User(email : _emailController.value, password: _passwordController.value));
+      return repository.signInUser(User(email : _emailController.value, password: _passwordController.value));
   }
 }

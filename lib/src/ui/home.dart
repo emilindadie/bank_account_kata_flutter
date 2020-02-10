@@ -4,6 +4,7 @@ import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/home_action.dart';
+import 'package:bank_account_kata_flutter/src/repositories/account_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -73,6 +74,7 @@ class HomePage extends StatelessWidget {
     return [
       MyBlocProvider<ConsultBloc>(
         bloc: ConsultBloc(
+            repository: AccountRepository(),
             user: state.authState.user,
             accessToken: state.authState.accessToken),
         child: ConsultPage(title: state.homeState.title),

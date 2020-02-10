@@ -1,10 +1,12 @@
 
 import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
+import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 
-import '../mock/repositories/user.dart';
+import '../../common/mock/repositories/user.dart';
+
 
 
 void main() {
@@ -12,7 +14,7 @@ void main() {
   group("SignIn bloc", () {
     test("should update name when name controller sink", () async {
       // Arrange
-      SignUpBloc bloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc(repository: UserRepository());
       String inputName = "Emilin";
 
       // Act
@@ -26,7 +28,7 @@ void main() {
 
 
     test("should update email when email controller sink", () async {
-      SignUpBloc bloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc(repository: UserRepository());
       String inputEmail = "dadie.emilin@gmail.com";
 
       bloc.updateEmail(inputEmail);
@@ -37,7 +39,7 @@ void main() {
     });
 
     test("should update address when address controller sink", () async {
-      SignUpBloc bloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc(repository: UserRepository());
       String inputPassword = "14 rue de Mulhouse";
 
       bloc.updateAddress(inputPassword);
@@ -48,7 +50,7 @@ void main() {
     });
 
     test("should update password when password controller sink", () async {
-      SignUpBloc bloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc(repository: UserRepository());
       String inputPassword = "azerty";
 
       bloc.updatePassword(inputPassword);
@@ -59,7 +61,7 @@ void main() {
     });
 
     test("should return signUp user when having valid signUp dto", () async {
-      SignUpBloc bloc = SignUpBloc();
+      SignUpBloc bloc = SignUpBloc(repository: UserRepository());
       User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
 
       String inputName = 'Emilin';

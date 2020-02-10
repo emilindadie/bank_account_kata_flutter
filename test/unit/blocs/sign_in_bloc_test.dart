@@ -2,9 +2,11 @@
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
+import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import '../mock/repositories/user.dart';
+
+import '../../common/mock/repositories/user.dart';
 
 
 void main() {
@@ -12,7 +14,7 @@ void main() {
   group("SignIn bloc", () {
     test("should update email when email controller sink", () async {
       // Arrange
-      SignInBloc bloc = SignInBloc();
+      SignInBloc bloc = SignInBloc(repository: UserRepository());
       String inputEmail = "dadie.emilin@gmail.com";
 
       // Act
@@ -25,7 +27,7 @@ void main() {
     });
 
     test("should update email when password controller sink", () async {
-      SignInBloc bloc = SignInBloc();
+      SignInBloc bloc = SignInBloc(repository: UserRepository());
       String inputPassword = "azerty";
       bloc.updatePassword(inputPassword);
 
@@ -36,7 +38,7 @@ void main() {
 
 
     test("should return signIn user when having existing email and password in the system", () async {
-      SignInBloc bloc = SignInBloc();
+      SignInBloc bloc = SignInBloc(repository: UserRepository());
       String inputEmail = "dadie.emilin@gmail.com";
       String inputPassword = "azerty";
 

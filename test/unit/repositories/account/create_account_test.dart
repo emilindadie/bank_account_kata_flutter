@@ -11,7 +11,7 @@ import 'package:http/testing.dart';
 
 void main() {
   group("Account repository", () {
-    test("Should signIn user",  () async {
+    test("Should create account",  () async {
       // Arrange
       AccountRepository repo = AccountRepository();
 

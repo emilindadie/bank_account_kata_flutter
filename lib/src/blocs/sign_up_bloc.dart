@@ -7,6 +7,11 @@ import 'bloc_provider.dart';
 
 class SignUpBloc with SignUpValidators implements BlocBase {
 
+
+  UserRepository repository;
+
+  SignUpBloc({this.repository});
+
   BehaviorSubject<String> _nameController = BehaviorSubject<String>.seeded("");
   BehaviorSubject<String> _emailController = BehaviorSubject<String>.seeded("");
   BehaviorSubject<String> _addressController = BehaviorSubject<String>.seeded("");
@@ -47,6 +52,6 @@ class SignUpBloc with SignUpValidators implements BlocBase {
   }
 
   Future<User> signUpUser() async {
-    return UserRepository().signUpUser(User(name: _nameController.value, email : _emailController.value, address: _addressController.value, password: _passwordController.value));
+    return repository.signUpUser(User(name: _nameController.value, email : _emailController.value, address: _addressController.value, password: _passwordController.value));
   }
 }

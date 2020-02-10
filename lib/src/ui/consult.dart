@@ -20,7 +20,6 @@ import 'consult_choice.dart';
 bool get isIOS => foundation.defaultTargetPlatform == TargetPlatform.iOS;
 
 class ConsultPage extends StatelessWidget implements OnClickListener {
-  TextEditingController _textFieldController = TextEditingController();
 
   BuildContext _context;
   ConsultBloc consultBloc;
@@ -32,7 +31,6 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
   Widget build(BuildContext context) {
     _context = context;
     consultBloc = MyBlocProvider.of<ConsultBloc>(context);
-
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[
@@ -65,7 +63,6 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
       body: StreamBuilder<List<Account>>(
           stream: consultBloc.accounts,
           builder: (context, snapshot) {
-            print('build');
             if (snapshot.hasData) {
               return ListView(
                   children: _buildAccountList(context, snapshot.data));
@@ -74,6 +71,7 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
             }
           }),
       floatingActionButton: FloatingActionButton(
+        key: Key("consultFloatingButton"),
         onPressed: () {
           //openDialog(context);
           showSimpleCustomDialog(context);

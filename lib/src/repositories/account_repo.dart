@@ -14,7 +14,6 @@ class AccountRepository {
           'Accept': 'application/json',
           'Authorization': 'Bearer $accessToken',
         });
-
     if (response.statusCode == 200) {
       print(jsonDecode(response.body));
       List<dynamic> jsonAccountList = jsonDecode(response.body)["data"];
