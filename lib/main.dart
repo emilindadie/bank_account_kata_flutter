@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             ),
             home: MyBlocProvider<SignInBloc>(
               bloc: SignInBloc(repository: UserRepository()),
-              child: SignInPage(),
+              child: SignInPage(createdUser: false),
             )
         ));
   }

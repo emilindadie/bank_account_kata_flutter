@@ -1,5 +1,8 @@
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
+import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
+import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
+import 'package:bank_account_kata_flutter/src/ui/sign_in.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -121,8 +124,7 @@ class SignUpPage extends StatelessWidget {
           } else {
             return renderButton(() async {
               var res = await bloc.signUpUser();
-              final snackBar = SnackBar(content: Text('Compte créer'));
-              Scaffold.of(context).showSnackBar(snackBar);
+              goToLogin(context);
             });
           }
         } else {
@@ -146,5 +148,16 @@ class SignUpPage extends StatelessWidget {
                 child: const Text('Register', style: TextStyle(fontSize: 20)),
               ),
             )));
+  }
+
+  void goToLogin(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyBlocProvider<SignInBloc>(
+            bloc: SignInBloc(repository: UserRepository()),
+            child: SignInPage(createdUser: true),
+          ),
+        ));
   }
 }

@@ -39,7 +39,7 @@ mixin SignUpValidators{
 
   var passwordValidator = StreamTransformer<String,String>.fromHandlers(
       handleData: (password,sink){
-        if(password.length > 0 && password.length>4){
+        if(password.length>4){
           sink.add(password);
         }
         else if(password.length > 0 && password.length < 4){

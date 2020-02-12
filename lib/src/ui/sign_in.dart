@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
-import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
@@ -17,12 +18,25 @@ import 'home.dart';
 
 class SignInPage extends StatelessWidget {
   SignInBloc signInBloc;
+  bool createdUser = false;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  SignInPage({this.createdUser}) {
+    if (createdUser) {
+      scheduleMicrotask(() => _scaffoldKey.currentState.showSnackBar(SnackBar(
+        backgroundColor: Color(0xFF82B312),
+            content: Text('Your account has been created'),
+          )));
+      this.createdUser = false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     signInBloc = MyBlocProvider.of<SignInBloc>(context);
 
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text("LOGIN", style: TextStyle(color: Color(0xFF17479E))),
           elevation: 0.0,
@@ -118,14 +132,12 @@ class SignInPage extends StatelessWidget {
                             var res =
                                 await bloc.signInUser().catchError((onError) {
                               final snackBar = SnackBar(
+                                  backgroundColor: Color(0xFFCC270A),
                                   content: Text("Wrong email or password"));
                               Scaffold.of(context).showSnackBar(snackBar);
                             });
 
                             if (res != null) {
-                              final snackBar =
-                                  SnackBar(content: Text('Compte créer'));
-                              Scaffold.of(context).showSnackBar(snackBar);
                               callback(res.user, res.accessToken);
                             }
                           },
@@ -162,12 +174,5 @@ class SignInPage extends StatelessWidget {
                 style: TextStyle(fontSize: 20, color: Color(0xFF17479E))),
           ),
         ));
-  }
-
-  Function onCompleted(
-      BuildContext context, Function callback, LoginResponse res) {
-    final snackBar = SnackBar(content: Text('Compte créer'));
-    Scaffold.of(context).showSnackBar(snackBar);
-    callback(res.user, res.accessToken);
   }
 }

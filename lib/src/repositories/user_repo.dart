@@ -11,6 +11,7 @@ class UserRepository {
   UserValidators validators = UserValidators();
 
   Future<User> signUpUser(User user) async {
+    print(user.toJson());
     if(!validators.validSignUpUserProperty(user)){
       throw Exception('All field is requiered!');
     }
