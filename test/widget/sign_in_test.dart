@@ -25,7 +25,7 @@ void main() {
             title: 'Flutter Test Login page',
             home: MyBlocProvider<SignInBloc>(
               bloc: SignInBloc(),
-              child: SignInPage(),
+              child: SignInPage(createdUser: false),
             ))));
 
     await tester.pump(Duration.zero);
@@ -52,7 +52,7 @@ void main() {
             title: 'Flutter Test Login page',
             home: MyBlocProvider<SignInBloc>(
               bloc: bloc,
-              child: SignInPage(),
+              child: SignInPage(createdUser: false),
             ))));
 
     await tester.pump(Duration.zero);

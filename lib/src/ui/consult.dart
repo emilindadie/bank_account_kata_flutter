@@ -1,4 +1,3 @@
-
 import 'package:bank_account_kata_flutter/src/blocs/bloc_provider.dart';
 import 'package:bank_account_kata_flutter/src/blocs/consult_bloc.dart';
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
@@ -20,7 +19,6 @@ import 'consult_choice.dart';
 bool get isIOS => foundation.defaultTargetPlatform == TargetPlatform.iOS;
 
 class ConsultPage extends StatelessWidget implements OnClickListener {
-
   BuildContext _context;
   ConsultBloc consultBloc;
   String title;
@@ -63,11 +61,14 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
       body: StreamBuilder<List<Account>>(
           stream: consultBloc.accounts,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data.length > 0) {
               return ListView(
                   children: _buildAccountList(context, snapshot.data));
             } else {
-              return Center();
+              return Center(
+                child: Text("No account to show",
+                    style: TextStyle(color: Color(0xFF395280), fontSize: 16.0)),
+              );
             }
           }),
       floatingActionButton: FloatingActionButton(
@@ -146,8 +147,8 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
         authAction: AuthAction(type: 'log_out'),
         homeAction: HomeAction(type: '0')));
     Navigator.of(_context).pushReplacement(new MaterialPageRoute(
-        builder: (context) =>
-            MyBlocProvider<SignInBloc>(bloc: SignInBloc(), child: SignInPage())));
+        builder: (context) => MyBlocProvider<SignInBloc>(
+            bloc: SignInBloc(), child: SignInPage())));
   }
 
   void showSimpleCustomDialog(BuildContext context) {
@@ -189,7 +190,7 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
                           ))),
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 10, right: 10, top: 30),
+                        const EdgeInsets.only(left: 10, right: 10, top: 30),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -202,7 +203,7 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
                           child: Text(
                             'Create',
                             style:
-                            TextStyle(fontSize: 18.0, color: Colors.white),
+                                TextStyle(fontSize: 18.0, color: Colors.white),
                           ),
                         ),
                         SizedBox(
@@ -217,7 +218,7 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
                           child: Text(
                             'Cancel!',
                             style:
-                            TextStyle(fontSize: 18.0, color: Colors.white),
+                                TextStyle(fontSize: 18.0, color: Colors.white),
                           ),
                         )
                       ],
