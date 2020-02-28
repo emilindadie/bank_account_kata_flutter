@@ -11,6 +11,7 @@ class Account extends BaseModel<Account>{
 
   @override
   Account fromJson(Map<String, dynamic> json) {
+    print(this.name);
     return Account(id: json['id'], name: json['name'], solde: json['solde'] );
   }
 

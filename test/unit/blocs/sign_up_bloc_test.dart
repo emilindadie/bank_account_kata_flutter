@@ -1,13 +1,11 @@
 
 import 'package:bank_account_kata_flutter/src/blocs/sign_up_bloc.dart';
+import 'package:bank_account_kata_flutter/src/models/api/api_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-
 import '../../common/mock/repositories/user.dart';
-
-
 
 void main() {
 
@@ -25,7 +23,6 @@ void main() {
         expect(onData, equals("Emilin"));
       });
     });
-
 
     test("should update email when email controller sink", () async {
       SignUpBloc bloc = SignUpBloc(repository: UserRepository());
@@ -70,7 +67,7 @@ void main() {
       String inputPassword = "azerty";
 
       MockUserRepository repositoryMock = MockUserRepository();
-      User mockResponse = user;
+      ApiResponse<User> mockResponse = ApiResponse(data: user);
       when(repositoryMock.signUpUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
       bloc.updateName(inputName);
@@ -79,8 +76,8 @@ void main() {
       bloc.updatePassword(inputPassword);
 
       bloc.name.listen((name)=> bloc.email.listen((email) => bloc.address.listen((address) => bloc.password.listen((password) async  {
-        User output = await bloc.signUpUser();
-        expect(output.email, equals('dadie.emilin@gmail.com'));
+        ApiResponse<User> output = await bloc.signUpUser();
+        expect(output.data.email, equals('dadie.emilin@gmail.com'));
       }))));
     });
   });

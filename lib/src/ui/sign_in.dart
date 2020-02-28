@@ -24,7 +24,7 @@ class SignInPage extends StatelessWidget {
   SignInPage({this.createdUser}) {
     if (createdUser) {
       scheduleMicrotask(() => _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Color(0xFF82B312),
+            backgroundColor: Color(0xFF82B312),
             content: Text('Your account has been created'),
           )));
       this.createdUser = false;
@@ -62,7 +62,12 @@ class SignInPage extends StatelessWidget {
                 buttonField(signInBloc, context),
               ],
             )),
-            new Positioned(bottom: 60.0, child: signUpPageField(context))
+            new Positioned(
+              bottom: 0.0,
+              child: Padding(
+                  padding: EdgeInsets.only(bottom: 50.0),
+                  child: signUpPageField(context)),
+            ),
           ],
         ));
   }
@@ -129,16 +134,14 @@ class SignInPage extends StatelessWidget {
                     onPressed: snapshot.hasData && snapshot.data
                         ? null
                         : () async {
-                            var res =
-                                await bloc.signInUser().catchError((onError) {
+                            try {
+                              var res = await bloc.signInUser();
+                              callback(res.data.user, res.data.accessToken);
+                            } catch (e) {
                               final snackBar = SnackBar(
                                   backgroundColor: Color(0xFFCC270A),
-                                  content: Text("Wrong email or password"));
+                                  content: Text(e.message));
                               Scaffold.of(context).showSnackBar(snackBar);
-                            });
-
-                            if (res != null) {
-                              callback(res.user, res.accessToken);
                             }
                           },
                     textColor: Colors.white,

@@ -123,8 +123,15 @@ class SignUpPage extends StatelessWidget {
             return renderButton(null);
           } else {
             return renderButton(() async {
-              var res = await bloc.signUpUser();
-              goToLogin(context);
+              try {
+                var res = await bloc.signUpUser();
+                goToLogin(context);
+              } catch (e) {
+                final snackBar = SnackBar(
+                    backgroundColor: Color(0xFFCC270A),
+                    content: Text(e.message));
+                Scaffold.of(context).showSnackBar(snackBar);
+              }
             });
           }
         } else {

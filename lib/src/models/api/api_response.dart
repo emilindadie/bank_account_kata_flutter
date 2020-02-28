@@ -1,6 +1,7 @@
 import 'package:bank_account_kata_flutter/src/models/account/account.dart';
 import 'package:bank_account_kata_flutter/src/models/base/base.dart';
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
+import 'package:bank_account_kata_flutter/src/models/operation/operation.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 
 import 'api_error.dart';
@@ -20,6 +21,9 @@ class ApiResponse<T extends BaseModel> {
       data['data']= this.data.toJson();
     }
     else if(this.data != null && this.data is Account){
+      data['data']= this.data.toJson();
+    }
+    else if(this.data != null && this.data is Operation){
       data['data']= this.data.toJson();
     }
     data['error'] != null ? this.error.toJson() : null;

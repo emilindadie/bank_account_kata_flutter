@@ -25,7 +25,7 @@ void main() {
       final output = await repo.signUpUser(user);
 
       // Assert
-      expect(output.email, equals('dadie.emilin@gmail.com'));
+      expect(output.data.email, equals('dadie.emilin@gmail.com'));
     });
   });
 }

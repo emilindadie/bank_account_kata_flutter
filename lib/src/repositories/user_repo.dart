@@ -1,4 +1,6 @@
 
+import 'package:bank_account_kata_flutter/src/models/api/api_error.dart';
+import 'package:bank_account_kata_flutter/src/models/api/api_response.dart';
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/validators/user_validators.dart';
@@ -10,21 +12,26 @@ class UserRepository {
 
   UserValidators validators = UserValidators();
 
-  Future<User> signUpUser(User user) async {
+  Future<ApiResponse<User>> signUpUser(User user) async {
     print(user.toJson());
     if(!validators.validSignUpUserProperty(user)){
       throw Exception('All field is requiered!');
     }
 
     final response = await client.post(new Uri.http("localhost:3001", "/users"), body: user.signUpDataToJson());
-    if (response.statusCode == 200) {
-      return User.fromJson(jsonDecode(response.body)['data']);
-    } else {
+
+    if (response.statusCode == 200 && jsonDecode(response.body)['data'] != null) {
+      return ApiResponse(data: User.fromJson(jsonDecode(response.body)['data']));
+    }
+    else if(response.statusCode == 200 && jsonDecode(response.body)['error'] != null) {
+      throw Exception(ApiError().fromJson(jsonDecode(response.body)['error']).message);
+    }
+    else {
       throw Exception('Failed to create user');
     }
   }
 
-  Future<LoginResponse> signInUser(User user) async {
+  Future<ApiResponse<LoginResponse>> signInUser(User user) async {
     if(!validators.validSignInUserProperty(user.email, user.password)){
       throw Exception('Email and password is required');
     }
@@ -33,9 +40,14 @@ class UserRepository {
     }
 
     final response = await client.post(new Uri.http("localhost:3001", "/users/login"), body: user.signInDataToJson());
-    if (response.statusCode == 200) {
-      return LoginResponse().fromJson(jsonDecode(response.body)['data']);
-    } else {
+
+    if (response.statusCode == 200 && jsonDecode(response.body)['data'] != null) {
+      return ApiResponse(data: LoginResponse().fromJson(jsonDecode(response.body)['data']));
+    }
+    else if(response.statusCode == 200 && jsonDecode(response.body)['error'] != null) {
+      throw Exception(ApiError().fromJson(jsonDecode(response.body)['error']).message);
+    }
+    else {
       throw Exception('Password or email is wrong');
     }
   }

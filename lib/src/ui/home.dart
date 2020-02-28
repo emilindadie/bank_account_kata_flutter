@@ -6,13 +6,13 @@ import 'package:bank_account_kata_flutter/src/redux/app_state.dart';
 import 'package:bank_account_kata_flutter/src/redux/auth_action.dart';
 import 'package:bank_account_kata_flutter/src/redux/home_action.dart';
 import 'package:bank_account_kata_flutter/src/repositories/account_repo.dart';
+import 'package:bank_account_kata_flutter/src/repositories/operation_repo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'consult.dart';
 import 'manage.dart';
-
 
 class HomePage extends StatelessWidget {
   @override
@@ -81,7 +81,11 @@ class HomePage extends StatelessWidget {
         child: ConsultPage(title: state.homeState.title),
       ),
       MyBlocProvider<ManageBloc>(
-        bloc: ManageBloc(),
+        bloc: ManageBloc(
+            accountRepository: AccountRepository(),
+            operationRepository: OperationRepository(),
+            user: state.authState.user,
+            accessToken: state.authState.accessToken),
         child: ManagePage(title: state.homeState.title),
       ),
       Center(),

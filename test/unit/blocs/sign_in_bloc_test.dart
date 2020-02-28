@@ -1,5 +1,6 @@
 
 import 'package:bank_account_kata_flutter/src/blocs/sign_in_bloc.dart';
+import 'package:bank_account_kata_flutter/src/models/api/api_response.dart';
 import 'package:bank_account_kata_flutter/src/models/login_response/login_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
@@ -44,15 +45,15 @@ void main() {
 
       User user = User(id: 1, name: 'Emilin', email: 'dadie.emilin@gmail.com', address: '14 rue de Mulhouse', password: 'azerty');
       MockUserRepository repositoryMock = MockUserRepository();
-      LoginResponse mockResponse = LoginResponse(accessToken: 'toto');
+      ApiResponse<LoginResponse> mockResponse = ApiResponse(data: LoginResponse(accessToken: 'toto'));
       when(repositoryMock.signInUser(user)).thenAnswer((_) => Future.value(mockResponse));
 
       bloc.updateEmail(inputEmail);
       bloc.updatePassword(inputPassword);
 
       bloc.email.listen((email)=> bloc.password.listen((password) async {
-        LoginResponse output = await bloc.signInUser();
-        expect(output.accessToken, equals('toto'));
+        ApiResponse<LoginResponse> output = await bloc.signInUser();
+        expect(output.data.accessToken, equals('toto'));
       }));
     });
   });

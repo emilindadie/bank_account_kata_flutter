@@ -124,7 +124,7 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
   }
 
   @override
-  void onClick(modelId, modelData) async {
+  void onClick(modelId, modelData, index) async {
     switch (modelId) {
       case "connotClick":
         print('Error');
@@ -234,13 +234,17 @@ class ConsultPage extends StatelessWidget implements OnClickListener {
         context: context, builder: (BuildContext context) => simpleDialog);
   }
 
-  void createAccount(String accountName) {
+  void createAccount(String accountName) async {
     final store = StoreProvider.of<AppState>(_context);
-    consultBloc
-        .createAccount(accountName, store.state.authState.user)
-        .then((onValue) {
-      consultBloc.loadAccounts();
+
+    try {
+      await consultBloc.createAccount(accountName, store.state.authState.user);
       Navigator.pop(_context);
-    });
+    } catch (e) {
+      Navigator.pop(_context);
+      final snackBar = SnackBar(
+          backgroundColor: Color(0xFFCC270A), content: Text(e.message));
+      Scaffold.of(_context).showSnackBar(snackBar);
+    }
   }
 }

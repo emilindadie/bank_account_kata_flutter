@@ -26,7 +26,7 @@ void main() {
       final output = await repo.signInUser(user);
 
       // Assert
-      expect(output.accessToken, equals('toto'));
+      expect(output.data.accessToken, equals('toto'));
     });
   });
 }

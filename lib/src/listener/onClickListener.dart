@@ -1,5 +1,5 @@
 
 
 abstract class OnClickListener{
-  void onClick(modelId, modelData);
+  void onClick(modelId, modelData, index);
 }

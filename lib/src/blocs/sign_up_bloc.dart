@@ -1,3 +1,4 @@
+import 'package:bank_account_kata_flutter/src/models/api/api_response.dart';
 import 'package:bank_account_kata_flutter/src/models/user/user.dart';
 import 'package:bank_account_kata_flutter/src/repositories/user_repo.dart';
 import 'package:bank_account_kata_flutter/src/validators/sign_up_validators.dart';
@@ -50,7 +51,7 @@ class SignUpBloc with SignUpValidators implements BlocBase {
     _passwordController.close();
   }
 
-  Future<User> signUpUser() async {
+  Future<ApiResponse<User>> signUpUser() async {
     return repository.signUpUser(User(id: 0, name: _nameController.value, email : _emailController.value, address: _addressController.value, password: _passwordController.value));
   }
 }

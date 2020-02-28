@@ -15,7 +15,8 @@ class CustomCardItemList extends StatelessWidget {
         this.onClickListener,
         this.modelId,
         this.modelData,
-        this.enableClick})
+        this.enableClick,
+        this.index})
       : assert(child != null);
 
   double marginTop;
@@ -31,6 +32,7 @@ class CustomCardItemList extends StatelessWidget {
   String modelId;
   var modelData;
   bool enableClick;
+  int index;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +48,9 @@ class CustomCardItemList extends StatelessWidget {
           child: Card(child: child),
           onTap: () {
             if (onClickListener != null && enableClick) {
-              onClickListener.onClick(modelId, modelData);
+              onClickListener.onClick(modelId, modelData, index);
             } else {
-              onClickListener.onClick("connotClick", null);
+              onClickListener.onClick("connotClick", null, null);
             }
           }),
     );
@@ -99,9 +101,9 @@ class CustomItemList extends StatelessWidget {
           child: child,
           onTap: () {
             if (onClickListener != null && enableClick) {
-              onClickListener.onClick(modelId, modelData);
+              onClickListener.onClick(modelId, modelData, null);
             } else {
-              onClickListener.onClick("connotClick", null);
+              onClickListener.onClick("connotClick", null, null);
             }
           }),
     );
